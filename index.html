@@ -3,8 +3,8 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>画像評価実験</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
 
   <style>
     body {
@@ -13,12 +13,105 @@
       max-width: 800px;
       margin: 40px auto;
       padding: 20px;
+      color: #333;
+      line-height: 1.8;
+      background: #fff;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    #status {
+      margin: 20px;
+    }
+
+    #startScreen {
+      max-width: 650px;
+      margin: 30px auto;
+      padding: 30px;
+      border: 1px solid #ddd;
+      border-radius: 16px;
+      text-align: left;
+      background: #fff;
+    }
+
+    #startScreen h2 {
+      text-align: center;
+      font-size: 23px;
+      margin-top: 0;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .rule-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+    }
+
+    .rule-list li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 10px 0;
+    }
+
+    .score {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      width: 58px;
+      min-height: 42px;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+
+    .s-minus3 { background: #B91C1C; }
+    .s-minus2 { background: #DC6464; }
+    .s-minus1 { background: #E9A2A2; }
+    .s-zero   { background: #808080; }
+    .s-plus1  { background: #83B5E8; }
+    .s-plus2  { background: #478BD1; }
+    .s-plus3  { background: #2463A8; }
+
+    .start-note {
+      color: #666;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .main-button {
+      display: block;
+      margin: 20px auto 0;
+      padding: 12px 35px;
+      font-size: 18px;
+      color: white;
+      background: #2463A8;
+      border: none;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+
+    .main-button:hover {
+      background: #194e88;
     }
 
     #image {
       display: block;
+      width: 500px;
+      height: 400px;
       max-width: 100%;
-      max-height: 500px;
       margin: 25px auto;
       object-fit: contain;
     }
@@ -37,8 +130,36 @@
       cursor: pointer;
     }
 
-    #status {
-      margin: 20px;
+    #volumeScreen {
+      margin: 30px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+    }
+
+    #volumeSlider {
+      width: 80%;
+      max-width: 400px;
+    }
+
+    #speakerIcon {
+      font-size: 28px;
+      margin: 10px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        margin: 15px auto;
+        padding: 12px;
+      }
+
+      #startScreen {
+        padding: 20px;
+      }
+
+      #image {
+        height: 320px;
+      }
     }
   </style>
 </head>
@@ -46,15 +167,89 @@
 <body>
   <h1>画像評価実験</h1>
 
-  <p id="status">画像を準備しています。</p>
+  <p id="status">開始画面を確認してください。</p>
 
+  <!-- スタート画面 -->
+  <div id="startScreen">
+    <h2>画像評価へのご協力のお願い</h2>
+    <p class="subtitle">画像の印象を評価する課題です</p>
+
+    <p>
+      ご参加ありがとうございます。<br>
+      これから表示される画像を見て、それぞれの画像に対する好意度を7段階で評価してください。
+    </p>
+
+    <h3>【評価方法】</h3>
+    <p>
+      画像を見て、自分がどの程度好ましいと感じるかを判断し、
+      最も近い点数を選んでください。正解・不正解はありませんので、
+      直感に従って回答してください。
+    </p>
+
+    <h3>【点数のルール】</h3>
+    <ul class="rule-list">
+      <li><span class="score s-minus3">−3</span><span>非常に好ましくない</span></li>
+      <li><span class="score s-minus2">−2</span><span>かなり好ましくない</span></li>
+      <li><span class="score s-minus1">−1</span><span>やや好ましくない</span></li>
+      <li><span class="score s-zero">0</span><span>どちらともいえない</span></li>
+      <li><span class="score s-plus1">+1</span><span>やや好ましい</span></li>
+      <li><span class="score s-plus2">+2</span><span>かなり好ましい</span></li>
+      <li><span class="score s-plus3">+3</span><span>非常に好ましい</span></li>
+    </ul>
+
+    <h3>【回答時のお願い】</h3>
+    <ul>
+      <li>画像をよく見て、自分の感じ方で回答してください。</li>
+      <li>深く考えすぎず、直感的に評価してください。</li>
+      <li>それぞれの画像について、1つの点数を選択してください。</li>
+      <li>回答を始めたら、できるだけ途中で中断せずに進めてください。</li>
+    </ul>
+
+    <p class="start-note">
+      準備ができたら、開始ボタンを押して課題を始めてください。初めは人形の画像です。
+    </p>
+
+<div style="text-align: center; margin-top: 25px;">
+  <label for="participantId"><strong>被験者番号</strong></label>
+  <br>
+  <input
+    type="number"
+    id="participantId"
+    min="1"
+    step="1"
+    placeholder="例：1"
+    required
+    style="font-size: 18px; padding: 8px; width: 150px; margin-top: 8px;"
+  >
+  <p style="font-size: 13px; color: #666;">
+    指定された番号を入力してください。
+  </p>
+</div>
+
+    <button id="startButton" class="main-button">開始する</button>
+  </div>
+
+  <!-- 音量調整画面 -->
+  <div id="volumeScreen" hidden>
+    <h2>音量調整</h2>
+    <p>これから音声を使用した評価を行います。</p>
+    <p>テスト音声を聞いて、聞き取りやすい音量に調整してください。</p>
+
+    <label for="volumeSlider">音量</label><br><br>
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+    <span id="volumeValue">50%</span><br><br>
+
+    <button id="testSoundButton" class="main-button">テスト音声を再生</button>
+    <p>調整が終わったら、次へ進んでください。</p>
+    <button id="continueButton" class="main-button">音声ありの評価を開始</button>
+  </div>
+
+  <!-- 画像評価画面 -->
   <div id="experiment" hidden>
     <p id="progress"></p>
-
+    <div id="speakerIcon" hidden aria-label="音声あり">🔊</div>
     <img id="image" alt="評価対象の画像">
-
     <p>この画像を −3 〜 ＋3 で評価してください。</p>
-
     <div id="buttons"></div>
   </div>
 

@@ -217,31 +217,7 @@ async function startExperiment() {
       );
     }
 
-    // 画像ファイルの存在確認
-    statusText.textContent = "画像を確認しています...";
-
-    for (const item of allImages) {
-      const response = await fetch(item.src);
-
-      if (!response.ok) {
-        throw new Error(`${item.name} を読み込めません。`);
-      }
-    }
-
-    // 音声ファイルの存在確認
-    statusText.textContent = "音声ファイルを確認しています...";
-
-    const audioNames = [...new Set(
-      audioImages.map(item => item.audio)
-    )];
-
-    for (const name of audioNames) {
-      const response = await fetch(AUDIO_FOLDER + name);
-
-      if (!response.ok) {
-        throw new Error(`${name} を読み込めません。`);
-      }
-    }
+   
 
     shuffle(dollImages);
     shuffle(remainingSilentImages);
